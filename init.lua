@@ -87,7 +87,7 @@ P.S. You can delete this when you're done too. It's your config now! :)
 -- Set <space> as the leader key
 -- See `:help mapleader`
 --  NOTE: Must happen before plugins are loaded (otherwise wrong leader will be used)
-vim.g.mapleader = ' '
+vim.g.mapleader = '\\'
 vim.g.maplocalleader = ' '
 
 -- [[ Setting options ]]
@@ -582,6 +582,8 @@ require('lazy').setup({
       })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
+      require('lspconfig').clangd.setup{}
+
       require('mason-lspconfig').setup {
         handlers = {
           function(server_name)
@@ -786,6 +788,17 @@ require('lazy').setup({
     end,
   },
 
+  {
+      "nvim-neo-tree/neo-tree.nvim",
+      branch = "v3.x",
+      dependencies = {
+        "nvim-lua/plenary.nvim",
+        "nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
+        "MunifTanjim/nui.nvim",
+        -- "3rd/image.nvim", -- Optional image support in preview window: See `# Preview Mode` for more information
+      },
+  },
+
   -- The following two comments only work if you have downloaded the kickstart repo, not just copy pasted the
   -- init.lua. If you want these files, they are in the repository, so you can just download them and
   -- put them in the right spots if you want.
@@ -805,6 +818,11 @@ require('lazy').setup({
   --    For additional information see: :help lazy.nvim-lazy.nvim-structuring-your-plugins
   -- { import = 'custom.plugins' },
 }, {})
+
+vim.opt.cursorline = true
+vim.opt.wrap = false
+vim.api.nvim_set_keymap("n", "<F8>", ":Neotree toggle left reveal<cr>", {})
+vim.api.nvim_set_keymap("n", "<S-F8>", ":Neotree toggle current reveal<cr>", {})
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
